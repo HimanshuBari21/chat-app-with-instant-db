@@ -1,52 +1,53 @@
-import { Message } from "@/types/Message";
+import { Message } from "../types/Message";
 
 export const messages: Message[] = [
   {
-    id: "1",
     content: "Hello!",
     timestamp: Date.now(),
     sender: "contact-1",
+    receiver: "user",
   },
   {
-    id: "2",
     content: "Hi!",
     timestamp: Date.now(),
-    sender: "contact-2",
+    sender: "user",
+    receiver: "contact-1",
   },
   {
-    id: "3",
     content: "How are you?",
     timestamp: Date.now(),
     sender: "contact-1",
+    receiver: "user",
   },
   {
-    id: "4",
     content: "I'm good, thanks!",
     timestamp: Date.now(),
-    sender: "contact-2",
+    sender: "user",
+    receiver: "contact-1",
   },
   {
-    id: "5",
     content: "What are you up to?",
     timestamp: Date.now(),
     sender: "contact-1",
+    receiver: "user",
   },
   {
-    id: "6",
     content: "Nothing much, just chilling.",
     timestamp: Date.now(),
-    sender: "contact-2",
+    sender: "user",
+    receiver: "contact-1",
   },
   {
-    id: "7",
     content: "Cool!",
     timestamp: Date.now(),
     sender: "contact-1",
+    receiver: "user",
   },
   {
-    id: "8",
-    content: "Yeah!",
+    content:
+      "Yeah! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, corrupti iusto! Repudiandae aperiam nihil, voluptates distinctio aspernatur ipsa. Libero quaerat laboriosam facilis odio corporis quam inventore voluptatem temporibus! Mollitia, eveniet!",
     timestamp: Date.now(),
     sender: "contact-2",
+    receiver: "user",
   },
 ];

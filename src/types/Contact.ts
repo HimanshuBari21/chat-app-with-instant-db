@@ -3,3 +3,8 @@ export type Contact = {
   name: string;
   avatar?: string;
 };
+
+export type ContactContextType = {
+  selectedContact: Contact | undefined;
+  setSelectedContact: (value: Contact) => void;
+};
