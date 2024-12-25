@@ -24,14 +24,17 @@ const MessageList: FC<MessageListProp> = (props) => {
       className={clsx("flex-1 overflow-y-auto chat-window p-4", className)}
       {...rest}
     >
+      <p className="text-center border bg-blue-100 w-fit mx-auto px-4 py-2 text-gray-600 text-xs rounded-full mb-4">
+        Your messages are NOT end-to-end-encypted.
+      </p>
       {messages?.map((message) => (
         <div key={message.id} className={"mb-4 relative flex flex-col"}>
           <div
             className={clsx(
               "relative p-2 px-4 rounded-lg max-w-[80%]",
               message.sender === currentUser
-                ? "bg-blue-500 text-white self-start"
-                : "bg-gray-300 text-black self-end"
+                ? "bg-blue-500 text-white self-end"
+                : "bg-gray-300 text-black self-start"
             )}
           >
             {message.content}
@@ -39,7 +42,7 @@ const MessageList: FC<MessageListProp> = (props) => {
           <div
             className={clsx(
               "text-xs text-gray-500 mt-1",
-              message.sender === currentUser ? "self-start" : "self-end"
+              message.sender === currentUser ? "self-end" : "self-start"
             )}
           >
             {new Date(message.timestamp).toLocaleTimeString("en-IN", {
