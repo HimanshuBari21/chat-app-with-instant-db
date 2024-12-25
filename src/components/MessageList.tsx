@@ -1,7 +1,7 @@
 import { MessageWithId } from "../types/Message";
 import clsx from "clsx";
 import { FC, HTMLAttributes, useEffect } from "react";
-import { currentUser } from "../App";
+import { useLocalStorage } from "usehooks-ts";
 
 export type MessageListProp = HTMLAttributes<HTMLDivElement> & {
   messages: MessageWithId[];
@@ -9,6 +9,7 @@ export type MessageListProp = HTMLAttributes<HTMLDivElement> & {
 
 const MessageList: FC<MessageListProp> = (props) => {
   const { messages, className, ...rest } = props;
+  const [currentUser] = useLocalStorage("currentUser", "");
 
   // scroll to bottom of chat window
   useEffect(() => {
@@ -24,22 +25,23 @@ const MessageList: FC<MessageListProp> = (props) => {
       {...rest}
     >
       {messages?.map((message) => (
-        <div
-          key={message.id}
-          className={`mb-4 ${
-            message.sender === currentUser ? "text-right" : "text-left"
-          }`}
-        >
+        <div key={message.id} className={"mb-4 relative flex flex-col"}>
           <div
-            className={`inline-block p-2 px-4 rounded-lg max-w-[80%] ${
+            className={clsx(
+              "relative p-2 px-4 rounded-lg max-w-[80%]",
               message.sender === currentUser
-                ? "bg-blue-500 text-white"
-                : "bg-gray-300 text-black"
-            }`}
+                ? "bg-blue-500 text-white self-start"
+                : "bg-gray-300 text-black self-end"
+            )}
           >
             {message.content}
           </div>
-          <div className="text-xs text-gray-500 mt-1">
+          <div
+            className={clsx(
+              "text-xs text-gray-500 mt-1",
+              message.sender === currentUser ? "self-start" : "self-end"
+            )}
+          >
             {new Date(message.timestamp).toLocaleTimeString("en-IN", {
               hour: "2-digit",
               minute: "2-digit",

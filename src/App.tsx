@@ -1,26 +1,24 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 import ChatWindow from "./components/ChatWindow";
 import ContactList from "./components/ContactList";
+import LoginScreen from "./components/LoginScreen";
 
 import { Contact } from "./types/Contact";
 
+import { UsersIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import clsx from "clsx";
+import { useLocalStorage } from "usehooks-ts";
 import useMessages from "./hooks/useMessages";
 import { db } from "./instantdb/init";
 import { ContactContext } from "./store/ContactContext";
-import clsx from "clsx";
-import { BiSolidGroup } from "react-icons/bi";
-import { CgClose } from "react-icons/cg";
-
-export const currentUser = "himanshu bari";
 
 const App = () => {
   const [selectedContact, setSelectedContact] = useState<Contact | undefined>(
     undefined
   );
   const [isContactsOpen, setIsContactsOpen] = useState(false);
+  const [currentUser] = useLocalStorage("currentUser", "");
 
   const { addMessage } = useMessages();
 
@@ -32,24 +30,30 @@ const App = () => {
     }
   }, []);
 
+  if (!currentUser) {
+    return <LoginScreen />;
+  }
+
   return (
     <ContactContext.Provider value={{ selectedContact, setSelectedContact }}>
       <main className="flex h-screen bg-gray-100">
-        <ContactList
-          contacts={contacts?.peoples as Contact[]}
-          className={clsx(
-            "absolute h-screen md:relative md:w-1/4 transition-all w-0 overflow-hidden",
-            isContactsOpen && "!w-[68%]"
-          )}
-        />
+        {contacts && (
+          <ContactList
+            contacts={contacts.peoples as Contact[]}
+            className={clsx(
+              "absolute h-screen md:relative md:w-1/4 transition-all w-0 overflow-hidden",
+              isContactsOpen && "!w-[68%]"
+            )}
+          />
+        )}
         {selectedContact ? (
           <ChatWindow
             contact={selectedContact}
             onSendMessage={(message) =>
               addMessage({
                 content: message,
-                sender: currentUser,
-                receiver: selectedContact.name,
+                sender: currentUser ?? "",
+                receiver: selectedContact.id,
                 timestamp: Date.now(),
               })
             }
@@ -64,7 +68,11 @@ const App = () => {
           onClick={() => setIsContactsOpen(!isContactsOpen)}
           className="flex items-center md:hidden fixed bottom-28 left-0 rounded-l-none p-2 pr-4 pl-3 bg-blue-500 text-white rounded-full shadow-lg transition-all"
         >
-          {isContactsOpen ? <CgClose size={28} /> : <BiSolidGroup size={28} />}
+          {isContactsOpen ? (
+            <XMarkIcon className="h-8" />
+          ) : (
+            <UsersIcon className="h-8" />
+          )}
         </button>
       </main>
     </ContactContext.Provider>

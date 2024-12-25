@@ -1,9 +1,11 @@
-import { Contact } from "../types/Contact";
 import clsx from "clsx";
-import { HTMLAttributes, FC, useContext } from "react";
+import { FC, HTMLAttributes, useContext, useMemo } from "react";
 import { ContactContext } from "../store/ContactContext";
-import title from "title";
-import { currentUser } from "../App";
+import { Contact } from "../types/Contact";
+import { useLocalStorage } from "usehooks-ts";
+import Button from "./Button";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/16/solid";
+import ContactHeader from "./ContactHeader";
 
 export type ContactListProps = HTMLAttributes<HTMLDivElement> & {
   contacts: Contact[];
@@ -15,12 +17,24 @@ const ContactList: FC<ContactListProps> = (props) => {
   const { selectedContact, setSelectedContact } =
     useContext(ContactContext) ?? {};
 
+  const [currentUser, setCurrentUser] = useLocalStorage("currentUser", "");
+
+  const currentUserContact = useMemo(
+    () => contacts?.find((c) => c.id === currentUser),
+    [contacts, currentUser]
+  );
+
   return (
-    <div className={clsx("bg-white border-r", className)} {...rest}>
-      <h2 className="text-2xl font-bold p-4 py-3.5 border-b">Contacts</h2>
+    <div className={clsx("relative bg-white border-r", className)} {...rest}>
+      <h2 className="text-2xl font-bold p-4 py-3.5 border-b flex items-center">
+        <span className="inline-block mr-2">
+          <ChatBubbleLeftRightIcon className="h-8" />
+        </span>
+        Charcha
+      </h2>
       <ul>
         {contacts
-          ?.filter((c) => c.name !== currentUser)
+          ?.filter((c) => c.id !== currentUser)
           ?.map((contact) => (
             <li
               key={contact.id}
@@ -29,17 +43,20 @@ const ContactList: FC<ContactListProps> = (props) => {
               }`}
               onClick={() => setSelectedContact?.(contact)}
             >
-              <img
-                src={contact.avatar || "/fallback-avatar.png"}
-                alt={contact.name}
-                width={40}
-                height={40}
-                className="rounded-full mr-4"
-              />
-              <span>{title(contact.name)}</span>
+              <ContactHeader contact={contact} />
             </li>
           ))}
       </ul>
+      <div className="absolute bottom-0 w-full">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center">
+            <ContactHeader contact={currentUserContact as Contact} />
+          </div>
+          <Button onClick={() => setCurrentUser("")} variant="secondary">
+            Logout
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -9,10 +9,9 @@ import clsx from "clsx";
 import { db } from "../instantdb/init";
 import { MessageWithId } from "../types/Message";
 
-import title from "title";
-import Avatar from "react-avatar";
 import { ContactContext } from "../store/ContactContext";
-import { currentUser } from "../App";
+import { useLocalStorage } from "usehooks-ts";
+import ContactHeader from "./ContactHeader";
 
 export type ChatWindowProps = HTMLAttributes<HTMLDivElement> & {
   contact: Contact;
@@ -24,12 +23,22 @@ const ChatWindow: FC<ChatWindowProps> = (props) => {
 
   const { selectedContact } = useContext(ContactContext) || {};
 
+  const [currentUser] = useLocalStorage("currentUser", "");
+
   const { data: messages } = db.useQuery({
     messages: {
       $: {
         where: {
-          receiver: selectedContact?.name ?? "",
-          sender: currentUser ?? "",
+          or: [
+            {
+              sender: currentUser,
+              receiver: selectedContact?.id as string,
+            },
+            {
+              sender: selectedContact?.id as string,
+              receiver: currentUser,
+            },
+          ],
         },
       },
     },
@@ -46,23 +55,8 @@ const ChatWindow: FC<ChatWindowProps> = (props) => {
 
   return (
     <div className={clsx("flex-1 flex flex-col", className)} {...rest}>
-      <div className="flex items-center p-4 border-b">
-        {contact.avatar ? (
-          <img
-            src={contact.avatar}
-            alt={contact.name}
-            width={42}
-            height={42}
-            className="rounded-full mr-4"
-          />
-        ) : (
-          <Avatar
-            name={contact.name}
-            className="rounded-full mr-4"
-            size={"42"}
-          />
-        )}
-        <h2 className="text-xl font-semibold">{title(contact.name)}</h2>
+      <div className="flex items-center p-4 py-[9px] border-b">
+        <ContactHeader contact={contact} />
       </div>
       <MessageList messages={messages?.messages as MessageWithId[]} />
       <MessageInput

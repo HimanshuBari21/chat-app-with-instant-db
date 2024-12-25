@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { FC, HTMLAttributes } from "react";
+import Button from "./Button";
 
 export type MessageInputProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
@@ -26,12 +27,7 @@ const MessageInput: FC<MessageInputProps> = (props) => {
         placeholder="Type a message..."
         className="w-full border rounded-full px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button
-        onClick={onSend}
-        className="bg-blue-500 text-white rounded-full px-4 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        Send
-      </button>
+      <Button onClick={onSend}>Send</Button>
     </div>
   );
 };
