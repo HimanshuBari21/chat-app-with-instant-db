@@ -20,7 +20,7 @@ const ContactHeader: FC<ContactHeaderProps> = (props) => {
           alt={contact?.name}
           width={42}
           height={42}
-          className="rounded-full mr-4"
+          className="rounded-full mr-4 size-[42px] object-contain"
         />
       ) : (
         <Avatar
