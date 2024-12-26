@@ -1,50 +1,26 @@
-# React + TypeScript + Vite
+# Charcha - A Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a chat application built using React, Vite, and Instant DB. It is a simple chat application that allows registered people to chat with other users.
 
-Currently, two official plugins are available:
+## Steps to run the application
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository
+2. Run `pnpm install` to install the dependencies
+   (incase pnpm is not installed, install it using `npm install -g pnpm`)
+3. Run `pnpm dev` to start the development server
+4. Open `http://localhost:5173/` in your browser
+5. You will need instant db credentials to run the application. Create a `.env` file in the root directory and add the following content:
+   ```
+   VITE_INSTANTDB_APP_ID=YOUR_API_KEY
+   ```
+6. Replace Vite YOUR_API_KEY with the provided in mail.
 
-## Expanding the ESLint configuration
+This was about the development server. To build the application, run `pnpm build` to create build and then `pnpm preview` to preview the production build.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Steps to use Application
 
-- Configure the top-level `parserOptions` property like this:
+1. Check your username provided in mail of assignment to start chatting/charcha.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+Its also hosted on: [https://charcha-ten.vercel.app/](https://charcha-ten.vercel.app/)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+For any problem/query please feel free to conatact me on himanshubari789@gmail.com

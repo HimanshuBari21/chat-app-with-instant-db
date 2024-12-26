@@ -19,6 +19,7 @@ const ContactList: FC<ContactListProps> = (props) => {
 
   const [currentUser, setCurrentUser] = useLocalStorage("currentUser", "");
 
+  // to not recalculate the variable on every render
   const currentUserContact = useMemo(
     () => contacts?.find((c) => c.id === currentUser),
     [contacts, currentUser]

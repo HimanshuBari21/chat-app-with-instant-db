@@ -9,6 +9,7 @@ const LoginScreen = () => {
   const [_currentUser, setCurrentUser] = useLocalStorage("currentUser", "");
   const [contactName, setContactName] = useState("");
 
+  // no not recalculate the function on every render
   const handleNameEnter = useCallback(async () => {
     const { data: contact } = await db.queryOnce({
       peoples: {

@@ -25,6 +25,7 @@ const ChatWindow: FC<ChatWindowProps> = (props) => {
 
   const [currentUser] = useLocalStorage("currentUser", "");
 
+  // fetch messages from the database for the selected contact as well as the current user
   const { data: messages } = db.useQuery({
     messages: {
       $: {

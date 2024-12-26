@@ -6,7 +6,11 @@ import LoginScreen from "./components/LoginScreen";
 
 import { Contact } from "./types/Contact";
 
-import { UsersIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import {
+  ChatBubbleLeftRightIcon,
+  UsersIcon,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
 import clsx from "clsx";
 import { useLocalStorage } from "usehooks-ts";
 import useMessages from "./hooks/useMessages";
@@ -24,12 +28,14 @@ const App = () => {
 
   const { data: contacts } = db.useQuery({ peoples: {} });
 
+  // if onmobile device open contacts by default
   useEffect(() => {
     if (window?.innerWidth < 768) {
       setIsContactsOpen(true);
     }
   }, []);
 
+  // if no user is logged in show login screen
   if (!currentUser) {
     return <LoginScreen />;
   }
@@ -60,8 +66,17 @@ const App = () => {
             onClick={() => isContactsOpen && setIsContactsOpen(false)}
           />
         ) : (
-          <div className="flex-1 flex items-center justify-center text-gray-500">
-            Select a contact to start chatting
+          <div
+            className="flex-1 flex flex-col items-center justify-center text-gray-500"
+            onClick={() => isContactsOpen && setIsContactsOpen(false)}
+          >
+            <div className="flex items-center space-x-2 my-4">
+              <ChatBubbleLeftRightIcon className="h-14" />
+              Charcha
+            </div>
+            <p className="text-xl text-center">
+              Select a contact to start chatting
+            </p>
           </div>
         )}
         <button

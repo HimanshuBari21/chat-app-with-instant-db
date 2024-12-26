@@ -2,6 +2,7 @@ import { MessageWithId } from "../types/Message";
 import clsx from "clsx";
 import { FC, HTMLAttributes, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import Message from "./Message";
 
 export type MessageListProp = HTMLAttributes<HTMLDivElement> & {
   messages: MessageWithId[];
@@ -28,29 +29,7 @@ const MessageList: FC<MessageListProp> = (props) => {
         Your messages are NOT end-to-end-encypted.
       </p>
       {messages?.map((message) => (
-        <div key={message.id} className={"mb-4 relative flex flex-col"}>
-          <div
-            className={clsx(
-              "relative p-2 px-4 rounded-lg max-w-[80%]",
-              message.sender === currentUser
-                ? "bg-blue-500 text-white self-end"
-                : "bg-gray-300 text-black self-start"
-            )}
-          >
-            {message.content}
-          </div>
-          <div
-            className={clsx(
-              "text-xs text-gray-500 mt-1",
-              message.sender === currentUser ? "self-end" : "self-start"
-            )}
-          >
-            {new Date(message.timestamp).toLocaleTimeString("en-IN", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </div>
-        </div>
+        <Message key={message.id} message={message} currentUser={currentUser} />
       ))}
     </div>
   );
