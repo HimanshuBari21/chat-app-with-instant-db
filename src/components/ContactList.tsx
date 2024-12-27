@@ -49,11 +49,15 @@ const ContactList: FC<ContactListProps> = (props) => {
           ))}
       </ul>
       <div className="absolute bottom-0 w-full">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center">
+        <div className="flex lg:flex-row flex-col items-center justify-between gap-y-4 p-4">
+          <div className="flex items-center lg:w-auto w-full">
             <ContactHeader contact={currentUserContact as Contact} />
           </div>
-          <Button onClick={() => setCurrentUser("")} variant="secondary">
+          <Button
+            className="lg:w-auto w-full"
+            onClick={() => setCurrentUser("")}
+            variant="secondary"
+          >
             Logout
           </Button>
         </div>
