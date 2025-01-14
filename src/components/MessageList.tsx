@@ -22,14 +22,37 @@ const MessageList: FC<MessageListProp> = (props) => {
 
   return (
     <div
-      className={clsx("flex-1 overflow-y-auto chat-window p-4", className)}
+      className={clsx(
+        "flex-1 overflow-y-auto relative chat-window p-4",
+        className
+      )}
       {...rest}
     >
-      <p className="text-center border bg-blue-100 w-fit mx-auto px-4 py-2 text-gray-600 text-xs rounded-full mb-4">
+      <p className="text-center border bg-blue-100 w-fit mx-auto px-3 py-1.5 text-gray-600 text-xs rounded-full mb-4">
         Your messages are NOT end-to-end-encypted.
       </p>
-      {messages?.map((message) => (
-        <Message key={message.id} message={message} currentUser={currentUser} />
+      {messages?.map((message, i) => (
+        <>
+          <div className="flex justify-center sticky top-0 my-2 z-50">
+            {new Date(message.timestamp).toLocaleString("en-IN", {
+              dateStyle: "short",
+            }) !==
+            new Date(messages[i - 1]?.timestamp).toLocaleString("en-IN", {
+              dateStyle: "short",
+            }) ? (
+              <div className="text-center w-fit bg-gray-700 text-white px-3 py-1.5 text-xs rounded-full">
+                {new Date(message.timestamp).toLocaleString("en-IN", {
+                  dateStyle: "full",
+                })}
+              </div>
+            ) : null}
+          </div>
+          <Message
+            key={message.id}
+            message={message}
+            currentUser={currentUser}
+          />
+        </>
       ))}
     </div>
   );

@@ -27,7 +27,7 @@ const Message: FC<MessageProps> = (props) => {
           message.sender === currentUser ? "self-end" : "self-start"
         )}
       >
-        {new Date(message.timestamp).toLocaleTimeString("en-IN", {
+        {new Date(message.timestamp).toLocaleString("en-IN", {
           hour: "2-digit",
           minute: "2-digit",
         })}
